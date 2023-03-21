@@ -1,0 +1,63 @@
+canvas {
+	border: inset #4F565E 3px;
+}
+
+body {
+	background: #303841;
+	overflow: hidden;
+	background: url(https://wallpapershome.com/images/pages/pic_h/10166.jpg), 100%;
+}
+
+.speed, #map {
+	border-bottom-right-radius: 25px;
+	border-top-right-radius: 25px;
+	background-color: green;
+	border: none;
+}
+.speedInf {
+	color: black;
+	background-color: darkgreen;
+	border-radius: 25px;
+	margin-top: 5px;
+	padding: 2px;
+}
+
+#start-options > div {
+	margin-left: 30%;
+	margin-top: 45px;
+}
+
+#pause-window, #game-over-window {
+	position: absolute;
+	padding: 15px;
+	width: 20%;
+	left: 40%;
+	top: 20%;
+	background-color: #7461a0;
+	border: solid rgb(63, 47, 65) 20px;
+}
+	#pause-window > ul > li, #game-over-window > ul > li {
+		margin: 5px;
+	}
+
+	#pause-window > span, #game-over-window > span {
+		
+		font-size: 25px;
+		display: inline-block;
+		margin: 10px;
+		animation-name: pulsingText;
+		animation-duration: 1s;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
+
+@keyframes pulsingText{
+	0% {
+		font-size: 25px;
+		margin: 10px;
+	}
+	100% {
+		font-size: 28px;
+		margin: 7.4px;
+	}
+}
