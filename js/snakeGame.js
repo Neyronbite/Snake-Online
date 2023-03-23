@@ -30,6 +30,7 @@ let stepCount;
 let score;
 
 let speed;
+let interval;
 let mapOriginal;
 
 //game starting function
@@ -103,18 +104,7 @@ function checkKey(e) {
     }
     else if (e.keyCode == '82') {
     	// R
-		if(gamePaused) {
-			restart();
-		}
-		else {
-			pause();
-			gamePausedDiv.addClass("d-none");
-
-			setTimeout(() => { 
-				restart();
-			}, speed * 2);
-			return;
-		}
+		restart()
     }
 
     if (pressed) {
@@ -275,7 +265,8 @@ function startGame(){
 	drawMatrix();
 	spawnBonus();
 	drawHead();
-	gameStep();
+
+	interval = setInterval(gameStep, speed);
 }
 
 function gameStep() {
@@ -284,15 +275,11 @@ function gameStep() {
 		return;
 	}
 	else if(gamePaused){
+		return;
 	}
 	else{
 		stepCount++;
 		playerMove();
-
-		//Repeat
-		setTimeout(() => {
-			gameStep();
-		}, speed)
 	}
 }
 
@@ -404,7 +391,8 @@ function finishGame() {
 	gamePausedDiv.addClass("d-none");
 	gameOverDiv.removeClass("d-none");
 	gamePaused = false;
-	//gameStep();
+
+	clearInterval(interval);
 }
 function pause() {
 	if(gameOver) {return; }
@@ -415,13 +403,14 @@ function pause() {
 	}
 	else {
 		gamePausedDiv.addClass("d-none");
-		gameStep();
 	}
 }
 
 function restart() {
 	gamePausedDiv.addClass("d-none");
 	gameOverDiv.addClass("d-none");
+
+	clearInterval(interval);
 
 	startGame();
 }
