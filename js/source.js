@@ -1,12 +1,10 @@
 $(() => {
-	$("#speed").change(e => {
-		speed = 100 - $(".speed").val();
-	});
 
 	$("#startbutton").click(() => {
 		let mapId = document.getElementById("map").value;
+		let speedStr = $("#speed").eq(0).val();
 
-		start(maps[mapId]);
+		start(maps[mapId], 100 - Number(speedStr));
 	})
 })
 

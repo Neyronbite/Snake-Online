@@ -13,6 +13,7 @@ let ctx;
 //Main bool variables
 let gameOver;
 let gamePaused;
+let retry;
 let started;
 let pressed;
 
@@ -28,11 +29,13 @@ let player;
 let stepCount;
 let score;
 
-let speed = 75;
+let speed;
 let mapOriginal;
 
 //game starting function
-function start(map){
+function start(map, speedStart){
+	speed = speedStart;
+
 	//Initializing game windows
 	gameDiv = $("#game");
 	gameOverDiv = $("#game-over-window");
@@ -100,8 +103,18 @@ function checkKey(e) {
     }
     else if (e.keyCode == '82') {
     	// R
-		restart();
-    	return;
+		if(gamePaused) {
+			restart();
+		}
+		else {
+			pause();
+			gamePausedDiv.addClass("d-none");
+
+			setTimeout(() => { 
+				restart();
+			}, speed * 2);
+			return;
+		}
     }
 
     if (pressed) {
@@ -237,9 +250,9 @@ function drawHead() {
 	// ctx.fillStyle = "#AA336A";
 	// ctx.fillRect(getScaledX(player.X) + 14, getScaledY(player.Y) + 6, 2, 4);
 
-	ctx.fillStyle = "#FFFFFF";
-	ctx.fillRect(getScaledX(player.X) + 11, getScaledY(player.Y) + 3, 2, 2);
-	ctx.fillRect(getScaledX(player.X) + 11, getScaledY(player.Y) + yScale - 3, 2, 2);
+	// ctx.fillStyle = "#FFFFFF";
+	// ctx.fillRect(getScaledX(player.X) + 11, getScaledY(player.Y) + 3, 2, 2);
+	// ctx.fillRect(getScaledX(player.X) + 11, getScaledY(player.Y) + yScale - 3, 2, 2);
 
 	ctx.stroke();
 }
@@ -257,6 +270,7 @@ function startGame(){
 
 	stepCount = 0;
 	gameOver = false;
+	gamePaused = false;
 
 	drawMatrix();
 	spawnBonus();
@@ -390,7 +404,7 @@ function finishGame() {
 	gamePausedDiv.addClass("d-none");
 	gameOverDiv.removeClass("d-none");
 	gamePaused = false;
-	gameStep();
+	//gameStep();
 }
 function pause() {
 	if(gameOver) {return; }
@@ -406,10 +420,8 @@ function pause() {
 }
 
 function restart() {
-	gameOverDiv.addClass("d-none");
 	gamePausedDiv.addClass("d-none");
-
-	gamePaused = false;
+	gameOverDiv.addClass("d-none");
 
 	startGame();
 }
